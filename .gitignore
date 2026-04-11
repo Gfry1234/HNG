@@ -1,0 +1,19 @@
+# Dependencies - Never upload these
+node_modules/
+.pnpm-store/
+
+# Next.js build outputs
+.next/
+out/
+
+# Android Studio junk - This is why your folder is 600MB+
+android/.gradle/
+android/app/build/
+android/.idea/
+android/local.properties
+android/captures/
+*.iml
+
+# OS files
+.DS_Store
+Thumbs.db
