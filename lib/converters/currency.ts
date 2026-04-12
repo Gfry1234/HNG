@@ -1,6 +1,6 @@
 /**
- * @deprecated Use currency-service.ts instead for API-based conversion with offline support
- * This file is kept for backward compatibility only
+ * @deprecated 
+ * This  is kept for backward compatibility only
  */
 
 export type CurrencyCode = 'USD' | 'EUR' | 'GBP' | 'JPY' | 'AUD' | 'CAD' | 'INR' | 'CHF'
