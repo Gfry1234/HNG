@@ -29,94 +29,77 @@ export default function TemperatureConverter() {
     : '0'
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-background via-background to-accent/5 px-4 py-6 sm:px-6 sm:py-8">
-      <div className="mx-auto max-w-2xl space-y-6">
-        {/* Header with back button */}
-        <div className="flex items-center gap-3">
-          <Link
-            href="/"
-            className="glass-button-secondary flex h-10 w-10 items-center justify-center p-0 text-lg"
-          >
-            ←
-          </Link>
-          <h1 className="text-2xl font-bold text-foreground">Converters</h1>
-        </div>
+    <main className="min-h-screen overflow-hidden bg-gradient-to-br from-background via-background to-accent/5">
+      {/* Background gradient effects */}
+      <div className="fixed inset-0 -z-10">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_20%_50%,rgba(59,130,246,0.15),transparent_50%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_80%_50%,rgba(168,85,247,0.15),transparent_50%)]" />
+      </div>
 
-        {/* Converter Card */}
-        <ConverterCard title="Temperature Converter" icon="🌡️">
-          <div className="space-y-6">
-            {/* Input */}
-            <UnitInput
-              label="From"
-              value={inputValue}
-              onChange={setInputValue}
-              unit={inputUnit}
-              onUnitChange={(unit) => setInputUnit(unit as TemperatureUnit)}
-              units={temperatureUnits.map((u) => temperatureUnitLabels[u])}
-              placeholder="Enter temperature"
-            />
-
-            {/* Swap button */}
-            <div className="flex justify-center">
-              <button
-                onClick={() => {
-                  const temp = inputUnit
-                  setInputUnit(outputUnit)
-                  setOutputUnit(temp)
-                }}
-                className="glass-button-secondary rounded-full px-4 py-2 text-sm"
-              >
-                ⇄ Swap
-              </button>
+      <div className="relative px-4 py-6 sm:px-6 sm:py-8">
+        <div className="mx-auto max-w-2xl space-y-6">
+          {/* Header with back button */}
+          <div className="flex items-center gap-3">
+            <Link
+              href="/"
+              className="glass-button-secondary flex h-10 w-10 items-center justify-center p-0 text-lg"
+            >
+              ←
+            </Link>
+            <div>
+              <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Converter</p>
+              <h1 className="text-2xl font-bold text-foreground">Temperature</h1>
             </div>
-
-            {/* Output */}
-            <ConverterDisplay
-              value={result}
-              unit={temperatureUnitLabels[outputUnit]}
-              label="To"
-            />
           </div>
-        </ConverterCard>
 
-        {/* Temperature Scales Info */}
-        <div className="space-y-3">
-          <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">Temperature Scales</h3>
-          <div className="grid gap-3 grid-cols-1 sm:grid-cols-3">
-            {temperatureData.map((scale) => (
-              <div key={scale.symbol} className="glass-card p-3">
-                <div className="text-2xl font-bold text-primary mb-1">{scale.symbol}</div>
-                <div className="text-sm font-medium text-foreground">{scale.name}</div>
-                <div className="text-xs text-muted-foreground mt-2">{scale.description}</div>
+          {/* Converter Card */}
+          <div className="glass-card p-6">
+            <div className="space-y-6">
+              {/* Input */}
+              <UnitInput
+                label="From"
+                value={inputValue}
+                onChange={setInputValue}
+                unit={inputUnit}
+                onUnitChange={(unit) => setInputUnit(unit as TemperatureUnit)}
+                units={temperatureUnits.map((u) => ({ key: u, label: temperatureUnitLabels[u] }))}
+                placeholder="Enter temperature"
+              />
+
+              {/* Swap button */}
+              <div className="flex justify-center">
+                <button
+                  onClick={() => {
+                    const temp = inputUnit
+                    setInputUnit(outputUnit)
+                    setOutputUnit(temp)
+                  }}
+                  className="glass-button-secondary rounded-full px-4 py-2 text-sm"
+                >
+                  ⇄ Swap
+                </button>
               </div>
-            ))}
-          </div>
-        </div>
 
-        {/* Reference Points */}
-        <div className="glass-card p-4 space-y-3">
-          <h3 className="font-semibold text-foreground">Reference Points</h3>
-          <div className="space-y-2">
-            {temperatureReferences.map((ref) => (
-              <div key={ref.label} className="flex justify-between items-center text-sm py-2 border-b border-border/50 last:border-0">
-                <span className="text-muted-foreground">{ref.label}</span>
-                <div className="space-x-3">
-                  <span className="text-foreground font-medium">{ref.value}</span>
-                  <span className="text-foreground font-medium">{(ref.celsius * 9/5 + 32).toFixed(1)}°F</span>
-                  <span className="text-foreground font-medium">{(ref.celsius + 273.15).toFixed(2)}K</span>
+              {/* Output */}
+              <ConverterDisplay
+                value={result}
+                unit={temperatureUnitLabels[outputUnit]}
+                label="To"
+              />
+            </div>
+          </div>
+
+          {/* Temperature Scales Info - Compact */}
+          <div className="space-y-3">
+            <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-widest">Temperature Scales</h3>
+            <div className="grid gap-2 grid-cols-1 sm:grid-cols-3">
+              {temperatureData.map((scale) => (
+                <div key={scale.symbol} className="glass-card p-3">
+                  <div className="text-lg font-bold text-primary">{scale.symbol}</div>
+                  <div className="text-xs font-medium text-foreground">{scale.name}</div>
                 </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Formula Info */}
-        <div className="glass-card p-4 space-y-2">
-          <h3 className="font-semibold text-foreground text-sm">Conversion Formulas</h3>
-          <div className="space-y-1 text-xs text-muted-foreground font-mono">
-            <p>°F = (°C × 9/5) + 32</p>
-            <p>°C = (°F - 32) × 5/9</p>
-            <p>K = °C + 273.15</p>
+              ))}
+            </div>
           </div>
         </div>
       </div>

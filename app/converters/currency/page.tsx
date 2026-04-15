@@ -19,6 +19,13 @@ const currencyData = [
   { code: 'CAD', name: 'Canadian Dollar', symbol: 'C$', description: 'Currency of Canada' },
   { code: 'INR', name: 'Indian Rupee', symbol: '₹', description: 'Currency of India' },
   { code: 'CHF', name: 'Swiss Franc', symbol: 'CHF', description: 'Currency of Switzerland' },
+  { code: 'ZAR', name: 'South African Rand', symbol: 'R', description: 'Currency of South Africa' },
+  { code: 'NGN', name: 'Nigerian Naira', symbol: '₦', description: 'Currency of Nigeria' },
+  { code: 'EGP', name: 'Egyptian Pound', symbol: '£', description: 'Currency of Egypt' },
+  { code: 'KES', name: 'Kenyan Shilling', symbol: 'Sh', description: 'Currency of Kenya' },
+  { code: 'GHS', name: 'Ghanaian Cedi', symbol: '₵', description: 'Currency of Ghana' },
+  { code: 'UGX', name: 'Ugandan Shilling', symbol: 'Sh', description: 'Currency of Uganda' },
+  { code: 'ETB', name: 'Ethiopian Birr', symbol: 'Br', description: 'Currency of Ethiopia' },
 ]
 
 const exchangeFacts = [
@@ -68,126 +75,102 @@ export default function CurrencyConverter() {
   }, [inputValue, inputUnit, outputUnit, convert])
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-background via-background to-accent/5 px-4 py-6 sm:px-6 sm:py-8">
-      <div className="mx-auto max-w-2xl space-y-6">
-        {/* Header with back button */}
-        <div className="flex items-center gap-3">
-          <Link
-            href="/"
-            className="glass-button-secondary flex h-10 w-10 items-center justify-center p-0 text-lg"
-          >
-            ←
-          </Link>
-          <h1 className="text-2xl font-bold text-foreground">Converters</h1>
-        </div>
+    <main className="min-h-screen overflow-hidden bg-gradient-to-br from-background via-background to-accent/5">
+      {/* Background gradient effects */}
+      <div className="fixed inset-0 -z-10">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_20%_50%,rgba(59,130,246,0.15),transparent_50%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_80%_50%,rgba(168,85,247,0.15),transparent_50%)]" />
+      </div>
 
-        {/* Loading State */}
-        {loading && (
-          <Alert className="border-blue-200 bg-blue-50 dark:border-blue-900 dark:bg-blue-950">
-            <Loader2 className="h-4 w-4 animate-spin" />
-            <AlertTitle>Loading Exchange Rates</AlertTitle>
-            <AlertDescription>Fetching the latest currency exchange rates...</AlertDescription>
-          </Alert>
-        )}
-
-        {/* Error State */}
-        {error && !loading && (
-          <Alert variant="destructive">
-            <AlertCircle className="h-4 w-4" />
-            <AlertTitle>Error</AlertTitle>
-            <AlertDescription>{error}</AlertDescription>
-          </Alert>
-        )}
-
-        {/* Offline State */}
-        {isOffline && (
-          <Alert className="border-amber-200 bg-amber-50 dark:border-amber-900 dark:bg-amber-950">
-            <AlertTriangle className="h-4 w-4 text-amber-600 dark:text-amber-400" />
-            <AlertTitle className="text-amber-900 dark:text-amber-100">Offline Mode</AlertTitle>
-            <AlertDescription className="text-amber-800 dark:text-amber-200">
-              Using cached exchange rates. Connect to the internet for the latest rates.
-            </AlertDescription>
-          </Alert>
-        )}
-
-        {/* Converter Card */}
-        <ConverterCard title="Currency Converter" icon="💱">
-          <div className="space-y-6">
-            {/* Input */}
-            <UnitInput
-              label="From"
-              value={inputValue}
-              onChange={setInputValue}
-              unit={inputUnit}
-              onUnitChange={(unit) => setInputUnit(unit as CurrencyCode)}
-              units={currencyUnits.map((u) => currencyUnitLabels[u])}
-              placeholder="Enter amount"
-              disabled={loading}
-            />
-
-            {/* Swap button */}
-            <div className="flex justify-center">
-              <button
-                onClick={() => {
-                  const temp = inputUnit
-                  setInputUnit(outputUnit)
-                  setOutputUnit(temp)
-                }}
-                disabled={loading || converting}
-                className="glass-button-secondary rounded-full px-4 py-2 text-sm disabled:opacity-50"
-              >
-                ⇄ Swap
-              </button>
+      <div className="relative px-4 py-6 sm:px-6 sm:py-8">
+        <div className="mx-auto max-w-2xl space-y-6">
+          {/* Header with back button */}
+          <div className="flex items-center gap-3">
+            <Link
+              href="/"
+              className="glass-button-secondary flex h-10 w-10 items-center justify-center p-0 text-lg"
+            >
+              ←
+            </Link>
+            <div>
+              <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Converter</p>
+              <h1 className="text-2xl font-bold text-foreground">Currency</h1>
             </div>
-
-            {/* Output */}
-            <ConverterDisplay
-              value={result}
-              unit={currencyUnitLabels[outputUnit]}
-              label="To"
-              loading={converting}
-            />
           </div>
-        </ConverterCard>
 
-        {/* Info card */}
-        <div className="glass-card p-4 text-center text-sm text-muted-foreground">
-          <p>Convert between major world currencies using {isOffline ? 'cached' : 'current'} exchange rates.</p>
-        </div>
+          {/* Loading State */}
+          {loading && (
+            <div className="glass-card border-blue-400/50 p-4 text-center text-sm">
+              <Loader2 className="mx-auto h-5 w-5 animate-spin text-blue-500 mb-2" />
+              <p className="text-blue-400">Loading exchange rates...</p>
+            </div>
+          )}
 
-        {/* Supported Currencies Grid */}
-        <div className="space-y-3">
-          <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">Supported Currencies</h3>
-          <div className="grid gap-3 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
-            {currencyData.map((currency) => (
-              <div key={currency.code} className="glass-card p-3 text-center">
-                <div className="text-lg font-bold text-primary">{currency.symbol}</div>
-                <div className="text-xs font-medium text-foreground">{currency.code}</div>
-                <div className="text-xs text-muted-foreground mt-1">{currency.name}</div>
+          {/* Error State */}
+          {error && !loading && (
+            <div className="glass-card border-red-400/50 p-4 text-center text-sm">
+              <p className="text-red-400">⚠️ {error}</p>
+            </div>
+          )}
+
+          {/* Offline State */}
+          {isOffline && (
+            <div className="glass-card border-amber-400/50 p-4 text-center text-sm">
+              <p className="text-amber-400">🔌 Using cached rates</p>
+            </div>
+          )}
+
+          {/* Converter Card */}
+          <div className="glass-card p-6">
+            <div className="space-y-6">
+              {/* Input */}
+              <UnitInput
+                label="From"
+                value={inputValue}
+                onChange={setInputValue}
+                unit={inputUnit}
+                onUnitChange={(unit) => setInputUnit(unit as CurrencyCode)}
+                units={currencyUnits.map((u) => ({ key: u, label: currencyUnitLabels[u] }))}
+                placeholder="Enter amount"
+                disabled={loading}
+              />
+
+              {/* Swap button */}
+              <div className="flex justify-center">
+                <button
+                  onClick={() => {
+                    const temp = inputUnit
+                    setInputUnit(outputUnit)
+                    setOutputUnit(temp)
+                  }}
+                  disabled={loading || converting}
+                  className="glass-button-secondary rounded-full px-4 py-2 text-sm disabled:opacity-50"
+                >
+                  ⇄ Swap
+                </button>
               </div>
-            ))}
-          </div>
-        </div>
 
-        {/* Exchange Rate Facts */}
-        <div className="glass-card p-4 space-y-3">
-          <h3 className="font-semibold text-foreground">Did You Know?</h3>
-          <div className="space-y-2">
-            {exchangeFacts.map((fact, idx) => (
-              <div key={idx} className="py-2 border-b border-border/50 last:border-0 text-sm text-muted-foreground">
-                <p>• {fact}</p>
-              </div>
-            ))}
+              {/* Output */}
+              <ConverterDisplay
+                value={result}
+                unit={currencyUnitLabels[outputUnit]}
+                label="To"
+                loading={converting}
+              />
+            </div>
           </div>
-        </div>
 
-        {/* Conversion Tips */}
-        <div className="glass-card p-4 space-y-3">
-          <h3 className="font-semibold text-foreground">Conversion Tips</h3>
-          <div className="space-y-2 text-sm text-muted-foreground">
-            {conversionTips.map((tip, idx) => (
-              <p key={idx}>• {tip}</p>
-            ))}
+          {/* Supported Currencies - Compact */}
+          <div className="space-y-3">
+            <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-widest">Supported ({currencyUnits.length})</h3>
+            <div className="grid gap-2 grid-cols-3 sm:grid-cols-5">
+              {currencyData.map((currency) => (
+                <div key={currency.code} className="glass-card p-2 text-center text-xs">
+                  <div className="font-bold text-primary">{currency.symbol}</div>
+                  <div className="text-xs text-foreground">{currency.code}</div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>

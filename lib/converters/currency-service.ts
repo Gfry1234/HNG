@@ -2,11 +2,12 @@
 
 import { cacheService } from '@/lib/storage/cache'
 
-const EXCHANGE_RATE_API = 'https://api.exchangerate-api.com/v4/latest'
+// Using a CORS-friendly open-source exchange rate API
+const EXCHANGE_RATE_API = 'https://open.er-api.com/v6/latest'
 const CACHE_KEY_PREFIX = 'exchange_rates_'
 const CACHE_TTL_MINUTES = 60 * 24 // 24 hours
 
-export type CurrencyCode = 'USD' | 'EUR' | 'GBP' | 'JPY' | 'AUD' | 'CAD' | 'INR' | 'CHF'
+export type CurrencyCode = 'USD' | 'EUR' | 'GBP' | 'JPY' | 'AUD' | 'CAD' | 'INR' | 'CHF' | 'ZAR' | 'NGN' | 'EGP' | 'KES' | 'GHS' | 'UGX' | 'ETB'
 
 export interface ExchangeRates {
   base: string
@@ -26,6 +27,13 @@ const FALLBACK_RATES: ExchangeRates = {
     CAD: 1.36,
     INR: 83.12,
     CHF: 0.88,
+    ZAR: 18.5,
+    NGN: 1650.0,
+    EGP: 50.5,
+    KES: 155.0,
+    GHS: 16.5,
+    UGX: 3800.0,
+    ETB: 60.0,
   },
   timestamp: Date.now(),
 }
@@ -46,6 +54,7 @@ export async function getExchangeRates(baseCurrency: CurrencyCode = 'USD'): Prom
       headers: {
         'Content-Type': 'application/json',
       },
+      cache: 'no-store',
     })
 
     if (!response.ok) {
@@ -55,7 +64,7 @@ export async function getExchangeRates(baseCurrency: CurrencyCode = 'USD'): Prom
     const data = await response.json()
 
     // Filter to only the currencies we support
-    const supportedCurrencies: CurrencyCode[] = ['USD', 'EUR', 'GBP', 'JPY', 'AUD', 'CAD', 'INR', 'CHF']
+    const supportedCurrencies: CurrencyCode[] = ['USD', 'EUR', 'GBP', 'JPY', 'AUD', 'CAD', 'INR', 'CHF', 'ZAR', 'NGN', 'EGP', 'KES', 'GHS', 'UGX', 'ETB']
     const rates: Record<string, number> = {}
 
     supportedCurrencies.forEach((currency) => {
@@ -105,7 +114,7 @@ export async function convertCurrency(
   return usdValue * targetRates.rates[to]
 }
 
-export const currencyUnits: CurrencyCode[] = ['USD', 'EUR', 'GBP', 'JPY', 'AUD', 'CAD', 'INR', 'CHF']
+export const currencyUnits: CurrencyCode[] = ['USD', 'EUR', 'GBP', 'JPY', 'AUD', 'CAD', 'INR', 'CHF', 'ZAR', 'NGN', 'EGP', 'KES', 'GHS', 'UGX', 'ETB']
 
 export const currencyUnitLabels: Record<CurrencyCode, string> = {
   USD: 'US Dollar ($)',
@@ -116,4 +125,11 @@ export const currencyUnitLabels: Record<CurrencyCode, string> = {
   CAD: 'Canadian Dollar (C$)',
   INR: 'Indian Rupee (₹)',
   CHF: 'Swiss Franc (CHF)',
+  ZAR: 'South African Rand (R)',
+  NGN: 'Nigerian Naira (₦)',
+  EGP: 'Egyptian Pound (£)',
+  KES: 'Kenyan Shilling (Sh)',
+  GHS: 'Ghanaian Cedi (₵)',
+  UGX: 'Ugandan Shilling (Sh)',
+  ETB: 'Ethiopian Birr (Br)',
 }

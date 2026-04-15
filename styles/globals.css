@@ -123,3 +123,43 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer components {
+  /* iOS 26 Glass Morphism */
+  .glass-card {
+    @apply rounded-3xl border border-white/20 bg-white/10 backdrop-blur-md shadow-lg transition-all duration-300;
+  }
+
+  .glass-card:hover {
+    @apply border-white/30 bg-white/15 shadow-xl;
+  }
+
+  .glass-input {
+    @apply rounded-2xl border border-white/20 bg-white/10 px-4 py-3 text-foreground placeholder:text-muted-foreground backdrop-blur-md transition-all duration-200 focus:border-white/40 focus:bg-white/20 focus:outline-none focus:ring-2 focus:ring-primary/50;
+  }
+
+  .glass-button {
+    @apply rounded-2xl border border-white/20 bg-gradient-to-br from-primary/80 to-primary/60 px-6 py-2 font-medium text-primary-foreground backdrop-blur-md shadow-lg transition-all duration-300 hover:border-white/30 hover:from-primary hover:to-primary/80 hover:shadow-xl active:scale-95;
+  }
+
+  .glass-button-secondary {
+    @apply rounded-2xl border border-white/20 bg-white/10 px-6 py-2 font-medium text-foreground backdrop-blur-md shadow-md transition-all duration-300 hover:border-white/30 hover:bg-white/20 hover:shadow-lg active:scale-95;
+  }
+
+  .glass-grid {
+    @apply gap-4;
+  }
+
+  /* Aesthetic gradients */
+  .gradient-primary {
+    @apply bg-gradient-to-br from-primary via-primary/80 to-primary/60;
+  }
+
+  .gradient-accent {
+    @apply bg-gradient-to-br from-accent via-accent/80 to-accent/60;
+  }
+
+  .gradient-secondary {
+    @apply bg-gradient-to-br from-secondary via-secondary/80 to-secondary/60;
+  }
+}

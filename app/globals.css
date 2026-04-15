@@ -2,7 +2,7 @@
 @import 'tw-animate-css';
 
 :root {
-  /* Dark Mode - iOS 26 Glass Theme */
+  /* Dark Mode - Glass Theme */
   --background: 17 24 39;
   --foreground: 229 231 235;
   --card: 31 41 55;

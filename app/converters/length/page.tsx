@@ -28,78 +28,77 @@ export default function LengthConverter() {
     : '0'
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 px-4 py-6 sm:px-6 sm:py-8">
-      <div className="mx-auto max-w-2xl space-y-6">
-        {/* Header with back button */}
-        <div className="flex items-center gap-3">
-          <Link
-            href="/"
-            className="glass-button-secondary flex h-10 w-10 items-center justify-center p-0 text-lg"
-          >
-            ←
-          </Link>
-          <h1 className="text-2xl font-bold text-foreground">Converters</h1>
-        </div>
+    <main className="min-h-screen overflow-hidden bg-gradient-to-br from-background via-background to-primary/5">
+      {/* Background gradient effects */}
+      <div className="fixed inset-0 -z-10">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_20%_50%,rgba(59,130,246,0.15),transparent_50%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_80%_50%,rgba(168,85,247,0.15),transparent_50%)]" />
+      </div>
 
-        {/* Converter Card */}
-        <ConverterCard title="Length Converter" icon="📏">
-          <div className="space-y-6">
-            {/* Input */}
-            <UnitInput
-              label="From"
-              value={inputValue}
-              onChange={setInputValue}
-              unit={inputUnit}
-              onUnitChange={(unit) => setInputUnit(unit as LengthUnit)}
-              units={lengthUnits.map((u) => lengthUnitLabels[u])}
-              placeholder="Enter length"
-            />
-
-            {/* Swap button */}
-            <div className="flex justify-center">
-              <button
-                onClick={() => {
-                  const temp = inputUnit
-                  setInputUnit(outputUnit)
-                  setOutputUnit(temp)
-                }}
-                className="glass-button-secondary rounded-full px-4 py-2 text-sm"
-              >
-                ⇄ Swap
-              </button>
+      <div className="relative px-4 py-6 sm:px-6 sm:py-8">
+        <div className="mx-auto max-w-2xl space-y-6">
+          {/* Header with back button */}
+          <div className="flex items-center gap-3">
+            <Link
+              href="/"
+              className="glass-button-secondary flex h-10 w-10 items-center justify-center p-0 text-lg"
+            >
+              ←
+            </Link>
+            <div>
+              <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Converter</p>
+              <h1 className="text-2xl font-bold text-foreground">Length</h1>
             </div>
-
-            {/* Output */}
-            <ConverterDisplay
-              value={result}
-              unit={lengthUnitLabels[outputUnit]}
-              label="To"
-            />
           </div>
-        </ConverterCard>
 
-        {/* Units Info Grid */}
-        <div className="space-y-3">
-          <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">Available Units</h3>
-          <div className="grid gap-3 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
-            {lengthData.map((unit) => (
-              <div key={unit.symbol} className="glass-card p-3 text-center">
-                <div className="text-lg font-bold text-primary">{unit.symbol}</div>
-                <div className="text-xs font-medium text-foreground">{unit.name}</div>
-                <div className="text-xs text-muted-foreground mt-1">{unit.description}</div>
+          {/* Converter Card */}
+          <div className="glass-card p-6">
+            <div className="space-y-6">
+              {/* Input */}
+              <UnitInput
+                label="From"
+                value={inputValue}
+                onChange={setInputValue}
+                unit={inputUnit}
+                onUnitChange={(unit) => setInputUnit(unit as LengthUnit)}
+                units={lengthUnits.map((u) => ({ key: u, label: lengthUnitLabels[u] }))}
+                placeholder="Enter length"
+              />
+
+              {/* Swap button */}
+              <div className="flex justify-center">
+                <button
+                  onClick={() => {
+                    const temp = inputUnit
+                    setInputUnit(outputUnit)
+                    setOutputUnit(temp)
+                  }}
+                  className="glass-button-secondary rounded-full px-4 py-2 text-sm"
+                >
+                  ⇄ Swap
+                </button>
               </div>
-            ))}
-          </div>
-        </div>
 
-        {/* Quick Facts */}
-        <div className="glass-card p-4 space-y-3">
-          <h3 className="font-semibold text-foreground">Quick Facts</h3>
-          <div className="space-y-2 text-sm text-muted-foreground">
-            <p>• <span className="text-foreground font-medium">1 kilometer</span> = 1,000 meters = 0.621 miles</p>
-            <p>• <span className="text-foreground font-medium">1 mile</span> = 1.609 kilometers = 5,280 feet</p>
-            <p>• <span className="text-foreground font-medium">1 foot</span> = 12 inches = 0.3048 meters</p>
-            <p>• <span className="text-foreground font-medium">1 meter</span> = 100 centimeters = 39.37 inches</p>
+              {/* Output */}
+              <ConverterDisplay
+                value={result}
+                unit={lengthUnitLabels[outputUnit]}
+                label="To"
+              />
+            </div>
+          </div>
+
+          {/* Units Info Grid - Compact */}
+          <div className="space-y-3">
+            <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-widest">Available Units</h3>
+            <div className="grid gap-2 grid-cols-3 sm:grid-cols-4">
+              {lengthData.map((unit) => (
+                <div key={unit.symbol} className="glass-card p-3 text-center text-xs">
+                  <div className="font-bold text-primary">{unit.symbol}</div>
+                  <div className="text-xs text-foreground">{unit.name}</div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>

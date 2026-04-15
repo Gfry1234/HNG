@@ -39,26 +39,39 @@ const converters: ConverterCard[] = [
     icon: '💱',
     color: 'from-accent/20 to-accent/5',
   },
+  {
+    href: '/tasks',
+    title: 'Tasks',
+    description: 'Create, track, and persist checklists',
+    icon: '📝',
+    color: 'from-secondary/20 to-secondary/5',
+  },
 ]
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-gradient-to-br from-background via-background to-primary/10 px-4 py-8 sm:px-6 sm:py-12">
-      <div className="mx-auto max-w-2xl space-y-12">
-        {/* Header Section */}
-        <div className="space-y-4 text-center">
-          <div className="text-6xl">🛠️</div>
-          <h1 className="text-4xl font-bold text-foreground sm:text-5xl">
-            Smart Utility Toolkit
-          </h1>
-          <p className="mx-auto max-w-sm text-lg text-muted-foreground">
-            Essential everyday tools in a single mobile application
-          </p>
-        </div>
+    <main className="min-h-screen overflow-hidden bg-gradient-to-br from-background via-background to-accent/5">
+      {/* Animated background gradient overlay */}
+      <div className="fixed inset-0 -z-10">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_20%_50%,rgba(59,130,246,0.1),transparent_50%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_80%_50%,rgba(168,85,247,0.1),transparent_50%)]" />
+      </div>
 
-        {/* Converters Grid */}
-        <div className="glass-grid grid-cols-1 sm:grid-cols-2">
-          {converters.map((converter) => (
+      <div className="relative px-4 py-8 sm:px-6 sm:py-12">
+        <div className="mx-auto max-w-2xl space-y-12">
+          {/* Header Section */}
+          <div className="space-y-4 text-center">
+            <div className="text-6xl">🛠️</div>
+            <h1 className="text-5xl font-bold tracking-tight text-foreground sm:text-6xl">
+              Smart Utility
+            </h1>
+            <p className="mx-auto max-w-sm text-lg text-muted-foreground">
+              Powerful tools. Beautiful design. Always with you.
+            </p>
+          </div>
+
+          {/* Main Grid */}
+          <div className="glass-grid grid-cols-1 sm:grid-cols-2">{converters.map((converter) => (
             <Link
               key={converter.href}
               href={converter.href}
@@ -71,7 +84,6 @@ export default function Home() {
 
               {/* Content */}
               <div className="space-y-3">
-                {/* Icon and Title */}
                 <div className="flex items-start justify-between">
                   <div>
                     <h2 className="text-xl font-bold text-foreground">{converter.title}</h2>
@@ -80,37 +92,41 @@ export default function Home() {
                   <span className="text-4xl">{converter.icon}</span>
                 </div>
 
-                {/* Arrow indicator */}
                 <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-primary transition-transform group-hover:translate-x-1">
                   Open <span>→</span>
                 </div>
               </div>
             </Link>
           ))}
-        </div>
+          </div>
 
-        {/* Features Section */}
-        <div className="glass-card space-y-4 p-6 text-center">
-          <h2 className="text-xl font-bold text-foreground">Why Use Smart Utility Toolkit?</h2>
-          <div className="grid gap-4 sm:grid-cols-3">
-            <div className="space-y-2">
-              <div className="text-2xl">⚡</div>
-              <p className="text-sm text-muted-foreground">Instant conversions with precise calculations</p>
-            </div>
-            <div className="space-y-2">
-              <div className="text-2xl">🎨</div>
-              <p className="text-sm text-muted-foreground">Beautiful iOS 26 glass design</p>
-            </div>
-            <div className="space-y-2">
-              <div className="text-2xl">📱</div>
-              <p className="text-sm text-muted-foreground">Perfect for mobile and tablet</p>
+          {/* Features Grid - Compact */}
+          <div className="glass-card space-y-4 p-6">
+            <h2 className="text-center text-xl font-bold text-foreground">Why Choose Us?</h2>
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              <div className="space-y-2 text-center">
+                <div className="text-2xl">⚡</div>
+                <p className="text-xs text-muted-foreground">Instant conversions</p>
+              </div>
+              <div className="space-y-2 text-center">
+                <div className="text-2xl">🎨</div>
+                <p className="text-xs text-muted-foreground">iOS design inspired</p>
+              </div>
+              <div className="space-y-2 text-center">
+                <div className="text-2xl">📱</div>
+                <p className="text-xs text-muted-foreground">Mobile optimized</p>
+              </div>
+              <div className="space-y-2 text-center">
+                <div className="text-2xl">📝</div>
+                <p className="text-xs text-muted-foreground">Local persistence</p>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Footer */}
-        <div className="text-center text-sm text-muted-foreground">
-          <p>All conversions are performed locally for privacy and speed</p>
+          {/* Footer */}
+          <div className="text-center text-xs text-muted-foreground/80">
+            <p>All conversions done locally. No tracking. No ads.</p>
+          </div>
         </div>
       </div>
     </main>

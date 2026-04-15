@@ -7,8 +7,7 @@ const nextConfig = {
   images: {
     unoptimized: true, //  static export and mobile
   },
-  // If 'allowedDevOrigins' is failing in experimental, 
-  // we remove it to let the server start without errors.
+
 }
 
 export default nextConfig

@@ -49,8 +49,9 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    /* suppressHydrationWarning is added here to ignore attribute 
-       mismatches caused by browser extensions like Night Eye */
+    /* suppressing HydrationWarning added here to ignore attribute 
+       mismatches caused by my browser extensions like Night Eye to 
+       force dark mode of webpages */
     <html lang="en" className="dark" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}>
         {children}

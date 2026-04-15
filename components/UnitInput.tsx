@@ -1,12 +1,17 @@
 import React from 'react'
 
+interface UnitOption {
+  key: string
+  label: string
+}
+
 interface UnitInputProps {
   label: string
   value: string
   onChange: (value: string) => void
   unit: string
   onUnitChange: (unit: string) => void
-  units: string[]
+  units: (string | UnitOption)[]
   placeholder?: string
   disabled?: boolean
 }
@@ -21,6 +26,8 @@ export function UnitInput({
   placeholder = 'Enter value',
   disabled = false,
 }: UnitInputProps) {
+  const normalizedUnits = units.map((u) => (typeof u === 'string' ? { key: u, label: u } : u))
+
   return (
     <div className="space-y-2">
       <label className="block text-sm font-medium text-muted-foreground">{label}</label>
@@ -39,9 +46,9 @@ export function UnitInput({
           disabled={disabled}
           className="glass-input w-32 disabled:opacity-50"
         >
-          {units.map((u) => (
-            <option key={u} value={u} className="bg-background text-foreground">
-              {u}
+          {normalizedUnits.map((u) => (
+            <option key={u.key} value={u.key} className="bg-background text-foreground">
+              {u.label}
             </option>
           ))}
         </select>
